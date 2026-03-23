@@ -3,37 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositório Dev</title>
+    <title>Repositório Dev - Projetos</title>
     <style>
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: #f4f4f9;
             color: #333;
-        }
-        .container {
-            text-align: center;
-            background: white;
+            margin: 0;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .project-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+        }
+        .project-card {
+            background: white;
             border-radius: 8px;
+            padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        h1 {
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: bold;
             color: #2c3e50;
+            margin-bottom: 0.5rem;
         }
-        p {
+        .project-desc {
             color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        .tags {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .tag {
+            background: #e1f5fe;
+            color: #0288d1;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Bem-vindo ao Repositório Dev</h1>
-        <p>Este é o arquivo de índice inicial (index.html) para o seu novo repositório.</p>
+    <div class="header">
+        <h1>Meus Projetos Dev</h1>
+        <p>Hub central para listar todos os projetos deste repositório.</p>
+    </div>
+    
+    <div class="project-list">
+        <!-- Projeto Neon Pins -->
+        <a href="neon-pins/index.html" class="project-card">
+            <div class="project-title">🎮 Neon Pins</div>
+            <div class="project-desc">Jogo hyper-casual viciante com visual Neon Dark Mode. Toque para atirar os pinos e avançar pelos 15 níveis.</div>
+            <div class="tags">
+                <span class="tag">HTML5 Canvas</span>
+                <span class="tag">Vanilla JS</span>
+                <span class="tag">Mobile-First</span>
+            </div>
+        </a>
     </div>
 </body>
 </html>
