@@ -1,0 +1,183 @@
+:root {
+  color-scheme: light;
+  --bg-top: #87c9ff;
+  --bg-bottom: #f5fbff;
+  --panel: rgba(255, 250, 241, 0.92);
+  --panel-border: rgba(84, 62, 37, 0.14);
+  --text: #35271c;
+  --muted: #78624d;
+  --primary: #e9722f;
+  --primary-pressed: #cb5c20;
+  --secondary: #fff6e3;
+  --shadow: 0 18px 45px rgba(75, 52, 26, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.65), transparent 34%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  color: var(--text);
+}
+
+body {
+  padding: 16px;
+}
+
+.app-shell {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.hero,
+.hud,
+.battlefield-card,
+.controls-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  padding: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  max-width: 42ch;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.hud-card {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+}
+
+.label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+.battlefield-card {
+  padding: 12px;
+}
+
+#gameCanvas {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #70c0ff 0%, #d8f4ff 66%, #f7fbff 100%);
+  touch-action: none;
+}
+
+.message {
+  margin: 12px 4px 0;
+  color: var(--muted);
+  min-height: 1.2em;
+}
+
+.controls-card {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.control-group {
+  display: grid;
+  gap: 8px;
+}
+
+.control-group label {
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary);
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--primary);
+  color: white;
+}
+
+.primary-button:active {
+  background: var(--primary-pressed);
+}
+
+.secondary-button {
+  background: var(--secondary);
+  color: var(--text);
+  border: 1px solid rgba(84, 62, 37, 0.12);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (min-width: 760px) {
+  body {
+    padding: 24px;
+  }
+
+  .controls-card {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+  }
+
+  .primary-button {
+    min-width: 170px;
+    min-height: 54px;
+  }
+}

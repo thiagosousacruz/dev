@@ -3,84 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositório Dev - Projetos</title>
+    <title>Repositorio Dev - Projetos</title>
     <style>
+        :root {
+            --bg: #f4f4f9;
+            --card: #ffffff;
+            --text: #333333;
+            --muted: #6c7a89;
+            --accent: #0288d1;
+            --accent-soft: #e1f5fe;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, #f7f9fc 0%, var(--bg) 100%);
+            color: var(--text);
             margin: 0;
             padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 2rem;
         }
+
+        .header h1 {
+            margin: 0 0 0.5rem;
+        }
+
+        .header p {
+            margin: 0;
+            color: var(--muted);
+        }
+
         .project-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            width: 100%;
-            max-width: 800px;
         }
+
         .project-card {
-            background: white;
-            border-radius: 8px;
+            background: var(--card);
+            border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
             text-decoration: none;
             color: inherit;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(2, 136, 209, 0.08);
         }
+
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
         }
+
         .project-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #203040;
             margin-bottom: 0.5rem;
         }
+
         .project-desc {
-            color: #7f8c8d;
-            font-size: 0.95rem;
+            color: var(--muted);
+            font-size: 0.96rem;
+            line-height: 1.5;
         }
+
         .tags {
             margin-top: 1rem;
             display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
         }
+
         .tag {
-            background: #e1f5fe;
-            color: #0288d1;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 0.3rem 0.55rem;
+            border-radius: 999px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Meus Projetos Dev</h1>
-        <p>Hub central para listar todos os projetos deste repositório.</p>
-    </div>
-    
-    <div class="project-list">
-        <!-- Projeto Neon Pins -->
-        <a href="neon-pins/index.html" class="project-card">
-            <div class="project-title">🎮 Neon Pins</div>
-            <div class="project-desc">Jogo hyper-casual viciante com visual Neon Dark Mode. Toque para atirar os pinos e avançar pelos 15 níveis.</div>
-            <div class="tags">
-                <span class="tag">HTML5 Canvas</span>
-                <span class="tag">Vanilla JS</span>
-                <span class="tag">Mobile-First</span>
-            </div>
-        </a>
-    </div>
+    <main class="container">
+        <header class="header">
+            <h1>Meus Projetos Dev</h1>
+            <p>Hub central para acessar os jogos e experimentos deste repositorio.</p>
+        </header>
+
+        <section class="project-list">
+            <a href="worms-pocket/index.html" class="project-card">
+                <div class="project-title">Mini Worms Pocket</div>
+                <div class="project-desc">
+                    Duelo tatico mobile-first inspirado em Worms, com mira, forca, terreno destrutivel e turno contra IA.
+                </div>
+                <div class="tags">
+                    <span class="tag">HTML5 Canvas</span>
+                    <span class="tag">Vanilla JS</span>
+                    <span class="tag">Touch Controls</span>
+                </div>
+            </a>
+        </section>
+    </main>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mini Worms Pocket</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Mobile-first artillery</p>
+        <h1>Mini Worms Pocket</h1>
+        <p class="subtitle">
+          Mire, ajuste a força e derrube o adversário em um duelo rápido inspirado em Worms.
+        </p>
+      </div>
+      <button id="restartButton" class="secondary-button" type="button">Novo terreno</button>
+    </section>
+
+    <section class="hud">
+      <div class="hud-card">
+        <span class="label">Turno</span>
+        <strong id="turnLabel">Jogador</strong>
+      </div>
+      <div class="hud-card">
+        <span class="label">Vida</span>
+        <strong id="playerHealth">100</strong>
+      </div>
+      <div class="hud-card">
+        <span class="label">Inimigo</span>
+        <strong id="enemyHealth">100</strong>
+      </div>
+    </section>
+
+    <section class="battlefield-card">
+      <canvas id="gameCanvas" width="960" height="540" aria-label="Campo de batalha"></canvas>
+      <p id="message" class="message">Seu turno: ajuste o tiro e toque em disparar.</p>
+    </section>
+
+    <section class="controls-card">
+      <div class="control-group">
+        <label for="angleInput">Ângulo <span id="angleValue">42°</span></label>
+        <input id="angleInput" type="range" min="12" max="88" value="42">
+      </div>
+
+      <div class="control-group">
+        <label for="powerInput">Força <span id="powerValue">62%</span></label>
+        <input id="powerInput" type="range" min="20" max="100" value="62">
+      </div>
+
+      <button id="fireButton" class="primary-button" type="button">Disparar</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
