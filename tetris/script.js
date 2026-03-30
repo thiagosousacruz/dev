@@ -3,32 +3,32 @@ const ROWS = 20;
 const BLOCK_SIZE = 30;
 const NEXT_BLOCK_SIZE = 24;
 const EMPTY = 0;
-const SWIPE_THRESHOLD = 24;
 
+const startScreen = document.getElementById("startScreen");
+const gameScreen = document.getElementById("gameScreen");
+const startGameButton = document.getElementById("startGameButton");
 const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
 const nextCanvas = document.getElementById("nextCanvas");
 const nextContext = nextCanvas.getContext("2d");
-
 const scoreElement = document.getElementById("score");
 const linesElement = document.getElementById("lines");
 const levelElement = document.getElementById("level");
 const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
 const overlayText = document.getElementById("overlayText");
-const startButton = document.getElementById("startButton");
 const pauseButton = document.getElementById("pauseButton");
 const restartButton = document.getElementById("restartButton");
-const touchButtons = document.querySelectorAll("[data-action]");
+const controlButtons = document.querySelectorAll("[data-action]");
 
 const palette = {
-  I: "#3dd9ff",
-  J: "#4c6fff",
-  L: "#ff9f43",
-  O: "#ffd84d",
-  S: "#52e27d",
-  T: "#b86cff",
-  Z: "#ff5c7a"
+  I: "#2f4730",
+  J: "#2f4730",
+  L: "#2f4730",
+  O: "#2f4730",
+  S: "#2f4730",
+  T: "#2f4730",
+  Z: "#2f4730"
 };
 
 const tetrominoes = {
@@ -81,9 +81,6 @@ let level;
 let isRunning;
 let isPaused;
 let isGameOver;
-let touchStartX = 0;
-let touchStartY = 0;
-let swipeLocked = false;
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
@@ -104,6 +101,16 @@ function randomType() {
   return keys[Math.floor(Math.random() * keys.length)];
 }
 
+function showGameScreen() {
+  startScreen.classList.remove("is-active");
+  gameScreen.classList.add("is-active");
+}
+
+function showStartScreen() {
+  gameScreen.classList.remove("is-active");
+  startScreen.classList.add("is-active");
+}
+
 function resetGame() {
   board = createBoard();
   score = 0;
@@ -120,7 +127,13 @@ function resetGame() {
   updateHud();
   draw();
   drawNextPiece();
-  showOverlay("Pronto?", "Toque em iniciar para jogar.");
+  showOverlay("Pronto", "Use os botoes abaixo para jogar.");
+}
+
+function enterGame() {
+  showGameScreen();
+  resetGame();
+  startGame();
 }
 
 function startGame() {
@@ -147,7 +160,7 @@ function pauseGame() {
   isPaused = !isPaused;
 
   if (isPaused) {
-    showOverlay("Pausado", "Toque em pausar ou pressione P para continuar.");
+    showOverlay("Pause", "Toque em P para voltar.");
     cancelAnimationFrame(animationFrameId);
     return;
   }
@@ -161,7 +174,7 @@ function gameOver() {
   isRunning = false;
   isGameOver = true;
   cancelAnimationFrame(animationFrameId);
-  showOverlay("Fim de jogo", "Toque em reiniciar e tente bater sua pontuacao.");
+  showOverlay("Fim", "Toque em R para reiniciar.");
 }
 
 function showOverlay(title, text) {
@@ -192,7 +205,7 @@ function update(time = 0) {
 }
 
 function getDropInterval() {
-  return Math.max(1000 - (level - 1) * 85, 150);
+  return Math.max(920 - (level - 1) * 70, 140);
 }
 
 function spawnPiece() {
@@ -279,7 +292,7 @@ function move(offset) {
 }
 
 function moveDown() {
-  if (!currentPiece) {
+  if (!currentPiece || !isRunning || isPaused || isGameOver) {
     return;
   }
 
@@ -330,14 +343,7 @@ function clearLines() {
 
   lines += cleared;
   level = Math.floor(lines / 10) + 1;
-
-  const lineScores = {
-    1: 100,
-    2: 300,
-    3: 500,
-    4: 800
-  };
-
+  const lineScores = { 1: 100, 2: 300, 3: 500, 4: 800 };
   score += (lineScores[cleared] || 0) * level;
   updateHud();
 }
@@ -352,16 +358,16 @@ function drawCell(ctx, x, y, color, size) {
   ctx.fillStyle = color;
   ctx.fillRect(x * size, y * size, size, size);
 
-  ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
-  ctx.fillRect(x * size, y * size, size, 4);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+  ctx.fillRect(x * size, y * size, size, 3);
 
-  ctx.strokeStyle = "rgba(5, 9, 20, 0.35)";
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.18)";
+  ctx.lineWidth = 1.5;
   ctx.strokeRect(x * size + 1, y * size + 1, size - 2, size - 2);
 }
 
 function drawGrid(ctx, width, height, size) {
-  ctx.strokeStyle = "rgba(170, 199, 255, 0.08)";
+  ctx.strokeStyle = "rgba(23, 26, 23, 0.08)";
   ctx.lineWidth = 1;
 
   for (let x = 0; x <= width; x += 1) {
@@ -425,9 +431,9 @@ function drawGhostPiece() {
         return;
       }
 
-      context.fillStyle = "rgba(255, 255, 255, 0.12)";
+      context.fillStyle = "rgba(47, 71, 48, 0.18)";
       context.fillRect((ghost.x + x) * BLOCK_SIZE, (ghost.y + y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-      context.strokeStyle = "rgba(255, 255, 255, 0.2)";
+      context.strokeStyle = "rgba(47, 71, 48, 0.28)";
       context.strokeRect((ghost.x + x) * BLOCK_SIZE + 1, (ghost.y + y) * BLOCK_SIZE + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
     });
   });
@@ -435,7 +441,6 @@ function drawGhostPiece() {
 
 function drawNextPiece() {
   nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
-
   if (!nextPiece) {
     return;
   }
@@ -449,15 +454,9 @@ function drawNextPiece() {
       if (!value) {
         return;
       }
-
       nextContext.fillStyle = nextPiece.color;
       nextContext.fillRect(offsetX + x * NEXT_BLOCK_SIZE, offsetY + y * NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE);
-
-      nextContext.fillStyle = "rgba(255, 255, 255, 0.22)";
-      nextContext.fillRect(offsetX + x * NEXT_BLOCK_SIZE, offsetY + y * NEXT_BLOCK_SIZE, NEXT_BLOCK_SIZE, 4);
-
-      nextContext.strokeStyle = "rgba(5, 9, 20, 0.35)";
-      nextContext.lineWidth = 2;
+      nextContext.strokeStyle = "rgba(0, 0, 0, 0.18)";
       nextContext.strokeRect(offsetX + x * NEXT_BLOCK_SIZE + 1, offsetY + y * NEXT_BLOCK_SIZE + 1, NEXT_BLOCK_SIZE - 2, NEXT_BLOCK_SIZE - 2);
     });
   });
@@ -465,7 +464,6 @@ function drawNextPiece() {
 
 function draw() {
   drawBoard();
-
   if (currentPiece) {
     drawGhostPiece();
     drawPiece(currentPiece);
@@ -483,11 +481,11 @@ function handleGameAction(action) {
     case "down":
       moveDown();
       break;
+    case "up":
+      hardDrop();
+      break;
     case "rotate":
       rotatePiece();
-      break;
-    case "drop":
-      hardDrop();
       break;
     default:
       break;
@@ -497,10 +495,6 @@ function handleGameAction(action) {
 document.addEventListener("keydown", (event) => {
   if (event.code === "KeyP") {
     pauseGame();
-    return;
-  }
-
-  if (!isRunning || isPaused || isGameOver) {
     return;
   }
 
@@ -519,73 +513,25 @@ document.addEventListener("keydown", (event) => {
       break;
     case "ArrowUp":
       event.preventDefault();
-      handleGameAction("rotate");
+      handleGameAction("up");
       break;
     case "Space":
       event.preventDefault();
-      handleGameAction("drop");
+      handleGameAction("rotate");
       break;
     default:
       break;
   }
 });
 
-touchButtons.forEach((button) => {
+controlButtons.forEach((button) => {
   button.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     handleGameAction(button.dataset.action);
   });
 });
 
-canvas.addEventListener("touchstart", (event) => {
-  const touch = event.touches[0];
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-  swipeLocked = false;
-}, { passive: true });
-
-canvas.addEventListener("touchmove", (event) => {
-  if (!isRunning || isPaused || isGameOver || swipeLocked) {
-    return;
-  }
-
-  const touch = event.touches[0];
-  const deltaX = touch.clientX - touchStartX;
-  const deltaY = touch.clientY - touchStartY;
-
-  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
-    handleGameAction(deltaX > 0 ? "right" : "left");
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    swipeLocked = true;
-  } else if (deltaY > SWIPE_THRESHOLD) {
-    handleGameAction("down");
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    swipeLocked = true;
-  } else if (deltaY < -SWIPE_THRESHOLD) {
-    handleGameAction("drop");
-    swipeLocked = true;
-  }
-}, { passive: true });
-
-canvas.addEventListener("touchend", (event) => {
-  if (!isRunning || isPaused || isGameOver) {
-    return;
-  }
-
-  const touch = event.changedTouches[0];
-  const deltaX = touch.clientX - touchStartX;
-  const deltaY = touch.clientY - touchStartY;
-
-  if (!swipeLocked && Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12) {
-    handleGameAction("rotate");
-  }
-
-  swipeLocked = false;
-}, { passive: true });
-
-startButton.addEventListener("click", startGame);
+startGameButton.addEventListener("click", enterGame);
 pauseButton.addEventListener("click", pauseGame);
 restartButton.addEventListener("click", () => {
   cancelAnimationFrame(animationFrameId);
@@ -594,3 +540,4 @@ restartButton.addEventListener("click", () => {
 });
 
 resetGame();
+showStartScreen();
