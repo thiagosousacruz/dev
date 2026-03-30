@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tetris Retro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <section class="game-shell">
+      <div class="panel board-panel">
+        <div class="board-frame">
+          <canvas id="gameCanvas" width="300" height="600" aria-label="Tabuleiro do Tetris"></canvas>
+          <div id="overlay" class="overlay visible">
+            <p id="overlayTitle">Pronto?</p>
+            <p id="overlayText">Toque em iniciar para jogar.</p>
+          </div>
+        </div>
+
+        <div class="touch-controls" aria-label="Controles por toque">
+          <button class="touch-button" type="button" data-action="left" aria-label="Mover para a esquerda">LEFT</button>
+          <button class="touch-button touch-button--accent" type="button" data-action="rotate" aria-label="Girar peca">ROTATE</button>
+          <button class="touch-button" type="button" data-action="right" aria-label="Mover para a direita">RIGHT</button>
+          <button class="touch-button" type="button" data-action="down" aria-label="Descer peca">DOWN</button>
+          <button class="touch-button touch-button--accent" type="button" data-action="drop" aria-label="Queda rapida">DROP</button>
+        </div>
+      </div>
+
+      <aside class="panel hud">
+        <div class="stat-card">
+          <p class="label">Pontuacao</p>
+          <p id="score">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="label">Linhas</p>
+          <p id="lines">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="label">Nivel</p>
+          <p id="level">1</p>
+        </div>
+        <div class="stat-card next-card">
+          <p class="label">Proxima</p>
+          <canvas id="nextCanvas" width="120" height="120" aria-label="Proxima peca"></canvas>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel intro">
+      <p class="eyebrow">HTML + CSS + JS</p>
+      <h1>Tetris Retro</h1>
+      <p class="description">
+        Versao mobile first com botoes grandes para toque, visual retrô e partida rapida em qualquer tela.
+      </p>
+
+      <div class="actions">
+        <button id="startButton" class="primary-button" type="button">Iniciar</button>
+        <button id="pauseButton" class="secondary-button" type="button">Pausar</button>
+        <button id="restartButton" class="secondary-button" type="button">Reiniciar</button>
+      </div>
+
+      <div class="controls">
+        <h2>Controles</h2>
+        <ul>
+          <li><span>Toque</span> botoes na tela</li>
+          <li><span>Arraste</span> esquerda e direita</li>
+          <li><span>Toque no tabuleiro</span> girar</li>
+          <li><span>Deslize para baixo</span> acelerar</li>
+          <li><span>Teclado</span> continua funcionando</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
