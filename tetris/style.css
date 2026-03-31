@@ -261,6 +261,33 @@ h1 {
   gap: 10px;
 }
 
+.high-scores-panel {
+  width: 100%;
+  padding-top: 2px;
+}
+
+.high-scores-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.high-scores-list li {
+  min-height: 24px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.16);
+  color: #f0f4e4;
+  font-size: 0.42rem;
+  text-align: center;
+}
+
+.high-scores-empty {
+  color: #b9bea8;
+}
+
 #nextCanvas {
   width: 72px;
   height: 72px;
@@ -434,5 +461,3 @@ h1 {
     font-size: 0.5rem;
   }
 }
-
-

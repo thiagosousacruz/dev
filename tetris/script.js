@@ -20,6 +20,10 @@ const overlayText = document.getElementById("overlayText");
 const pauseButton = document.getElementById("pauseButton");
 const restartButton = document.getElementById("restartButton");
 const controlButtons = document.querySelectorAll("[data-action]");
+const highScoresListElement = document.getElementById("highScoresList");
+
+const HIGH_SCORES_KEY = "tetris-pocket-high-scores";
+const HIGH_SCORES_LIMIT = 5;
 
 const palette = {
   I: "#2f4730",
@@ -81,6 +85,67 @@ let level;
 let isRunning;
 let isPaused;
 let isGameOver;
+let highScores = [];
+
+function loadHighScores() {
+  try {
+    const storedScores = window.localStorage.getItem(HIGH_SCORES_KEY);
+    if (!storedScores) {
+      return [];
+    }
+
+    const parsedScores = JSON.parse(storedScores);
+    if (!Array.isArray(parsedScores)) {
+      return [];
+    }
+
+    return parsedScores
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value) && value >= 0)
+      .sort((first, second) => second - first)
+      .slice(0, HIGH_SCORES_LIMIT);
+  } catch (error) {
+    return [];
+  }
+}
+
+function persistHighScores() {
+  try {
+    window.localStorage.setItem(HIGH_SCORES_KEY, JSON.stringify(highScores));
+  } catch (error) {
+    // Ignora falhas de armazenamento local para nao interromper o jogo.
+  }
+}
+
+function renderHighScores() {
+  if (!highScoresListElement) {
+    return;
+  }
+
+  highScoresListElement.innerHTML = "";
+
+  for (let index = 0; index < HIGH_SCORES_LIMIT; index += 1) {
+    const value = highScores[index];
+    const item = document.createElement("li");
+    item.className = value === undefined ? "high-scores-empty" : "";
+    item.textContent = `${index + 1}. ${value ?? "---"}`;
+    highScoresListElement.appendChild(item);
+  }
+}
+
+function saveHighScore(value) {
+  if (!Number.isFinite(value) || value <= 0) {
+    return false;
+  }
+
+  highScores = [...highScores, value]
+    .sort((first, second) => second - first)
+    .slice(0, HIGH_SCORES_LIMIT);
+
+  persistHighScores();
+  renderHighScores();
+  return highScores.includes(value);
+}
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
@@ -174,7 +239,11 @@ function gameOver() {
   isRunning = false;
   isGameOver = true;
   cancelAnimationFrame(animationFrameId);
-  showOverlay("Fim", "Toque em R para reiniciar.");
+  const enteredTopFive = saveHighScore(score);
+  const gameOverMessage = enteredTopFive
+    ? "Nova pontuacao no top 5. Toque em R para reiniciar."
+    : "Toque em R para reiniciar.";
+  showOverlay("Fim", gameOverMessage);
 }
 
 function showOverlay(title, text) {
@@ -539,5 +608,7 @@ restartButton.addEventListener("click", () => {
   startGame();
 });
 
+highScores = loadHighScores();
+renderHighScores();
 resetGame();
 showStartScreen();
